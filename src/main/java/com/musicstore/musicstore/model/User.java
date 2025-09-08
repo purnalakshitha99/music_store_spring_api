@@ -1,9 +1,11 @@
 package com.musicstore.musicstore.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -13,6 +15,9 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private ROLES role;
 
 
 }
