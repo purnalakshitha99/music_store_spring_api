@@ -23,6 +23,8 @@ public class AuthServiceImpl implements AuthService {
        user.setPassword(registerRq.getPassword());
        user.setFirstName(registerRq.getFirstName());
        user.setLastName(registerRq.getLastName());
+       user.setRole(registerRq.getRole());
+
        userRepository.save(user);
 
        RegisterResponse registerResponse = new RegisterResponse();

@@ -3,6 +3,8 @@ package com.musicstore.musicstore.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.management.relation.Role;
+
 @Data
 @Entity
 @Table(name = "users")
@@ -20,4 +22,6 @@ public class User {
     private ROLES role;
 
 
+    public void setRole(Role role) {
+    }
 }
