@@ -10,4 +10,5 @@ public class RegisterRq {
     private String email;
     private String password;
     private ROLES role;
+
 }
