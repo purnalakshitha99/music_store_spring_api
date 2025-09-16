@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+// This opens up all endpoints in this controller to requests from localhost:3000
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
