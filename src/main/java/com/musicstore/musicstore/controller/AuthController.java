@@ -9,17 +9,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+// This opens up all endpoints in this controller to requests from localhost:3000
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRq registerRq) {
-        RegisterResponse response = authService.register(registerRq);
+    public ResponseEntity<RegisterResponse> register( RegisterRq registerRq,
+                                                      @RequestParam(value = "file",required = false) MultipartFile file) {
+        RegisterResponse response = authService.register(registerRq,file);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

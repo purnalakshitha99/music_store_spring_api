@@ -22,13 +22,6 @@ public class UserController {
 
     private UserService userService;
 
-//    public ResponseEntity<> List <UserResponseDto> getAllUsers()throws UserNotFoundException {
-//
-//        List<UserResponseDto> userResponseDtoList = userService.getUsers();
-//
-//        re
-//
-//    }
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

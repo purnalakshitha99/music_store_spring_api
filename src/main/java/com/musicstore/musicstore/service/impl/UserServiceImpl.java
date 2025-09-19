@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setEmail(user.getEmail());
             userResponseDto.setFirstName(user.getFirstName());
             userResponseDto.setLastName(user.getLastName());
+            userResponseDto.setProfilePictureUrl(user.getProfilePictureUrl());
 
             userResponseDtoList.add(userResponseDto);
         }
