@@ -4,6 +4,7 @@ import com.musicstore.musicstore.dto.request.LoginRq;
 import com.musicstore.musicstore.dto.request.RegisterRq;
 import com.musicstore.musicstore.dto.response.LoginResponse;
 import com.musicstore.musicstore.dto.response.RegisterResponse;
+import com.musicstore.musicstore.dto.response.UserResponseDto;
 import com.musicstore.musicstore.model.User;
 import com.musicstore.musicstore.repository.UserRepository;
 import com.musicstore.musicstore.security.JwtTokenProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,9 +73,23 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication);
 
+        // 3. Fetch the full User object from the database. We need this for the details.
+        User user = userRepository.findByEmail(loginRq.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + loginRq.getEmail()));
+
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setMessage("User logged in successfully!");
         loginResponse.setAccessToken(token);
+
+
+        UserResponseDto userResponseDto = new UserResponseDto();
+
+        userResponseDto.setEmail(user.getEmail());
+        userResponseDto.setFirstName(user.getFirstName());
+        userResponseDto.setLastName(user.getLastName());
+        userResponseDto.setRole(user.getRole());
+        userResponseDto.setProfilePictureUrl(user.getProfilePictureUrl());
+        loginResponse.setUser(userResponseDto);
 
         return loginResponse;
     }
