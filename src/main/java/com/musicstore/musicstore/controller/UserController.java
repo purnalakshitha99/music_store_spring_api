@@ -2,8 +2,6 @@ package com.musicstore.musicstore.controller;
 
 import com.musicstore.musicstore.dto.response.UserResponseDto;
 import com.musicstore.musicstore.exception.UserNotFoundException;
-import com.musicstore.musicstore.model.User;
-import com.musicstore.musicstore.repository.UserRepository;
 import com.musicstore.musicstore.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +30,10 @@ public class UserController {
         return new ResponseEntity<>(userResponseDtoList, HttpStatus.OK);
     }
 
+//    @GetMapping("/artists")
+//    public ResponseEntity<List<UserResponseDto>> getArtists() throws UserNotFoundException {
+//        List<UserResponseDto> artists = userService.getArtists();
+//        return new ResponseEntity<>(artists, HttpStatus.OK);
+//    }
 
 }

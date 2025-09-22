@@ -4,7 +4,9 @@ import com.musicstore.musicstore.dto.request.SongRq;
 import com.musicstore.musicstore.dto.response.SongResponse;
 import com.musicstore.musicstore.service.SongService;
 import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,18 +23,26 @@ import java.util.List;
 public class SongController {
 
     private final SongService songService;
+    private final ObjectMapper objectMapper;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ARTIST')") // The security rule that locks this endpoint
     public ResponseEntity<SongResponse> uploadSong(
-            @RequestPart("songRq") SongRq songRq,
+            @RequestPart("songRq") String songRq,
             @RequestPart("coverArtFile") MultipartFile coverArtFile,
             Authentication authentication // Spring injects this to identify the current user
     ) {
         // Securely get the artist's email from their JWT token
         String artistEmail = authentication.getName();
 
-        SongResponse createdSong = songService.createSong(songRq, coverArtFile, artistEmail);
+        SongRq requestDto;
+        try {
+            requestDto = objectMapper.readValue(songRq, SongRq.class);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        SongResponse createdSong = songService.createSong(requestDto, coverArtFile, artistEmail);
         return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
     }
 
