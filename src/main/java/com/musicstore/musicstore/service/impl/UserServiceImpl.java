@@ -1,5 +1,6 @@
 package com.musicstore.musicstore.service.impl;
 
+import com.musicstore.musicstore.dto.response.DeleteResponse;
 import com.musicstore.musicstore.dto.response.UserResponseDto;
 import com.musicstore.musicstore.exception.UserNotFoundException;
 import com.musicstore.musicstore.model.User;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -84,6 +86,37 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    public Optional<DeleteResponse> deleteUser(Long id) throws UserNotFoundException {
+
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("User not found")
+        );
+        userRepository.delete(user);
+
+        DeleteResponse deleteResponse = new DeleteResponse();
+
+        deleteResponse.setResponseId(user.getId());
+        deleteResponse.setMessage("User deleted successfully with id " + user.getId());
+
+        return Optional.of(deleteResponse);
+    }
+
+
+    @Override
+    public UserResponseDto getUserById(Long id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
+
+        UserResponseDto dto = new UserResponseDto();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setProfilePictureUrl(user.getProfilePictureUrl());
+        return dto;
+    }
+
 
 
 }
