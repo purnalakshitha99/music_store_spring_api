@@ -2,6 +2,7 @@ package com.musicstore.musicstore.controller;
 
 import com.musicstore.musicstore.dto.response.UserResponseDto;
 import com.musicstore.musicstore.exception.UserNotFoundException;
+import com.musicstore.musicstore.model.User;
 import com.musicstore.musicstore.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,16 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getUsers()throws UserNotFoundException {
 
         List<UserResponseDto> userResponseDtoList = userService.getUsers();
+
+        return new ResponseEntity<>(userResponseDtoList, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/users/advertisement_managers")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<UserResponseDto>> getAdvertisementManagers() throws UserNotFoundException {
+
+        List<UserResponseDto> userResponseDtoList = userService.getAdvertisementManagers();
 
         return new ResponseEntity<>(userResponseDtoList, HttpStatus.OK);
     }

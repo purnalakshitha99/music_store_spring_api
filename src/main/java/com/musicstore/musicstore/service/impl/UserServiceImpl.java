@@ -67,4 +67,23 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    public List<UserResponseDto> getAdvertisementManagers() throws UserNotFoundException {
+        List<User> artists = userRepository.findByRole(ROLES.ROLE_ADVERTISEMENT_MANAGER);
+        if (artists.isEmpty()) {
+            throw new UserNotFoundException("advertisement managers are not found");
+        }
+        List<UserResponseDto> result = new ArrayList<>();
+        for (User user : artists) {
+            UserResponseDto dto = new UserResponseDto();
+            dto.setId(user.getId());
+            dto.setEmail(user.getEmail());
+            dto.setFirstName(user.getFirstName());
+            dto.setLastName(user.getLastName());
+            dto.setProfilePictureUrl(user.getProfilePictureUrl());
+            result.add(dto);
+        }
+        return result;
+    }
+
+
 }

@@ -9,4 +9,6 @@ public interface UserService  {
 
     List<UserResponseDto> getUsers()throws UserNotFoundException;
     List<UserResponseDto> getArtists() throws UserNotFoundException;
+    List<UserResponseDto>getAdvertisementManagers() throws UserNotFoundException;
+
 }
