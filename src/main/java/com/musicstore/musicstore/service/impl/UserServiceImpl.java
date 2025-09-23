@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setFirstName(user.getFirstName());
             userResponseDto.setLastName(user.getLastName());
             userResponseDto.setProfilePictureUrl(user.getProfilePictureUrl());
+            userResponseDto.setRole(user.getRole());
 
             userResponseDtoList.add(userResponseDto);
         }
