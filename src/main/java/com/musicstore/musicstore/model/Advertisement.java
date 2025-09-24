@@ -1,12 +1,15 @@
 package com.musicstore.musicstore.model;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Data
+@Entity
+@Table(name = "advertisement")
 public class Advertisement {
 
     @Id
@@ -15,4 +18,7 @@ public class Advertisement {
     private String title;
     private String description;
     private String advertisementUrl;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private BigDecimal budget;
 }
