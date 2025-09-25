@@ -44,18 +44,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setAdvertisementUrl(imageUrl);
         
         advertisementRepository.save(advertisement);
-
-        AdvertisementResponse advertisementResponse = getAdvertisementResponse(imageUrl, advertisement);
-
-        return advertisementResponse;
         
-
-
-    }
-
-    private static AdvertisementResponse getAdvertisementResponse(String imageUrl, Advertisement advertisement) {
         AdvertisementResponse advertisementResponse = new AdvertisementResponse();
-
+        
         advertisementResponse.setAdvertisementUrl(imageUrl);
         advertisementResponse.setTitle(advertisement.getTitle());
         advertisementResponse.setDescription(advertisement.getDescription());
@@ -63,6 +54,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisementResponse.setEndDate(advertisement.getEndDate());
         advertisementResponse.setBudget(advertisement.getBudget());
         advertisementResponse.setId(advertisement.getId());
+        
         return advertisementResponse;
+        
+
+
     }
 }
