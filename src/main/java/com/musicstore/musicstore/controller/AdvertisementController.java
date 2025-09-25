@@ -33,17 +33,39 @@ public class AdvertisementController {
 
 //     }
 
+//    @PostMapping("/add/{user_id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<AdvertisementResponse> createAdvertisement(
+//            @ModelAttribute AdvertisementRq advertisementRq,
+//            @RequestParam(value = "file", required = false) MultipartFile file,
+//            @PathVariable("user_id") Long userId
+//    ) {
+//        System.out.println("AdvertisementRq: " + advertisementRq);
+//        System.out.println("File: " + (file != null ? file.getOriginalFilename() : "No file uploaded"));
+//        System.out.println("User ID: " + userId);
+//
+//        AdvertisementResponse advertisementResponse = advertisementService.createAdvertisement(advertisementRq,file,userId);
+//
+//    }
+
+
     @PostMapping("/add/{user_id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void createAdvertisement(
+    public ResponseEntity<AdvertisementResponse> createAdvertisement(
             @ModelAttribute AdvertisementRq advertisementRq,
             @RequestParam(value = "file", required = false) MultipartFile file,
             @PathVariable("user_id") Long userId
-    ) {
+    ) throws UserNotFoundException, AdvertisementNotFoundException {
         System.out.println("AdvertisementRq: " + advertisementRq);
         System.out.println("File: " + (file != null ? file.getOriginalFilename() : "No file uploaded"));
         System.out.println("User ID: " + userId);
+
+        AdvertisementResponse advertisementResponse =
+                advertisementService.createAdvertisement(advertisementRq, userId, file);
+
+        return ResponseEntity.ok(advertisementResponse);
     }
+
 
 
 
