@@ -5,6 +5,7 @@ import com.musicstore.musicstore.dto.request.AdvertisementRq;
 import com.musicstore.musicstore.dto.response.AdvertisementResponse;
 import com.musicstore.musicstore.exception.AdvertisementNotFoundException;
 import com.musicstore.musicstore.exception.UserNotFoundException;
+import com.musicstore.musicstore.exception.UserNotPermitionException;
 import com.musicstore.musicstore.model.Advertisement;
 import com.musicstore.musicstore.repository.UserRepository;
 import com.musicstore.musicstore.service.AdvertisementService;
@@ -50,12 +51,13 @@ public class AdvertisementController {
 
 
     @PostMapping("/add/{user_id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ADVERTISEMENT_MANAGER')")
+    @PreAuthorize("hasRole('ADVERTISEMENT_MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<AdvertisementResponse> createAdvertisement(
             @ModelAttribute AdvertisementRq advertisementRq,
             @RequestParam(value = "file", required = false) MultipartFile file,
             @PathVariable("user_id") Long userId
-    ) throws UserNotFoundException, AdvertisementNotFoundException {
+    ) throws UserNotFoundException, AdvertisementNotFoundException, UserNotPermitionException {
         System.out.println("AdvertisementRq: " + advertisementRq);
         System.out.println("File: " + (file != null ? file.getOriginalFilename() : "No file uploaded"));
         System.out.println("User ID: " + userId);

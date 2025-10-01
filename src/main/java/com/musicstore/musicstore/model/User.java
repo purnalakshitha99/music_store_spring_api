@@ -3,6 +3,8 @@ package com.musicstore.musicstore.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = {"email"}) })
@@ -19,4 +21,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private ROLES role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Advertisement> advertisementList;
 }

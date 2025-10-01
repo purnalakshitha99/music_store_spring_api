@@ -21,4 +21,9 @@ public class Advertisement {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal budget;
+
+    @ManyToOne
+    private User user;
+
+
 }
