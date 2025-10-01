@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class AppControllerAdviser {
@@ -40,5 +42,12 @@ public class AppControllerAdviser {
         errorResponse.setPath(request.getRequestURI());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserNotPermitionException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotPermition(UserNotPermitionException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());  // "You are not allowed to perform this action"
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 }
